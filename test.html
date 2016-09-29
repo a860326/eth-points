@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<title>区块链web3测试</title>
+		<script type="text/javascript" src="js/web3.min.js"></script>
+		<script type="text/javascript" src="js/package.js" ></script>		
+		<script type="text/javascript">
+//			var web3 = new Web3();
+//			web3.setProvider(new web3.providers.HttpProvider(provider));
+//			web3.eth.defaultAccount = web3.eth.accounts[0];
+//			console.log("链接状态:"+web3.isConnected());
+//			var contract = web3.eth.contract(abi);
+//			var Points = contract.at(sender);
+//			console.log(Points);
+			//Points.register(13552649687, {from: account});
+//			Points.new({data: codeHex, gas: 300000, from: sender},
+//				function(err, result){
+//					if (!err){
+//						if(!myContract.address) {
+//         					console.log("合约部署失败！");
+//    					} else {
+//         					console.log("合约部署成功！");
+//     					}
+//					}
+//				});
+			//Points.earnpoints(13552649687, 1234, 1000);
+			//Points.costpoints(13800138000, 1234, 0);
+			
+			//Points.issueTrans(13552649687, 1234, 200, 1235, 100);
+			//Points.earnpoints(13800138000, 1235, 1000);
+			//Points.issueTrans(13800138000, 1235, 200, 1234, 100);
+//			var length = Points.getTransLength.call({from:account});
+//			console.log("arrays.length:"+length);
+//			for (var index = 0; index < length; index++){
+//				var arrays = Points.getTransinf.call(index, {from:account});
+//				console.log("index:"+index+","+arrays[0]+"|"+arrays[1]+"|"+arrays[2]+"|"+arrays[3]+"|"+arrays[4]);
+//			}
+			//Points.subTrans(13800138000, 0);
+			var colls = [1234, 1235];
+			for (var index = 0; index < colls.length; index++){
+				var jf = Points.queryPoints.call(18611517897, colls[index], {from: account});
+				console.log("------>"+jf[0]+","+jf[1]+","+jf[2]);
+			}
+			
+			Points.Log({fromBlock: 0,toBlock: 'latest'}).watch(function(error, result) {
+				if(!error) {
+					console.log(result.args._method+","+result.args._message+","+result.args._result)
+				} else {
+					console.log(error.toString());
+				}
+			});
+			Points.Log().stopWatching();
+			console.log(Points.getTransLength.call({from: account}).toString());
+		</script>
+	</head>
+	<body>
+		<div id="result"></div>
+	</body>
+
+</html>

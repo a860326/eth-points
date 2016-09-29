@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+	<title>合约部署</title>
+	<link rel="stylesheet" href="css/weui.css"/>
+	<link rel="stylesheet" href="weui.plus.css"/>
+	<script type="text/javascript" src="js/web3.min.js" ></script>
+	<script type="text/javascript" src="js/zepto.min.js"></script>
+	<script type="text/javascript" src="js/deploy.js"></script>
+</head>
+<body>
+	<div class="container" id="container">
+	<div class="cell">
+		<div class="bd">
+			<div class="weui_cells_title">合约部署信息[在部署之前必须保证账户地址是可用状态]</div>
+			<div class="weui_cells weui_cells_form">
+		        <div class="weui_cell">
+		            <div class="weui_cell_hd"><label class="weui_label">部署地址</label></div>
+		            <div class="weui_cell_bd weui_cell_primary">
+		                <input class="weui_input" id="provider" type="text" placeholder="请输入合约部署地址" value="http://10.10.67.55:8545">
+		            </div>
+		        </div>
+		        <div class="weui_cell weui_vcode">
+		            <div class="weui_cell_hd"><label class="weui_label">账户地址</label></div>
+		            <div class="weui_cell_bd weui_cell_primary">
+		                <select class="weui_select" id="address" name="select2">
+		                    <option value="0">[0]</option>
+		                    <option value="10">[10]</option>
+		                    <option value="11">[11]</option>
+		                </select>
+		            </div>
+		        </div>
+		      	<div class="weui_btn_area">
+			        <a class="weui_btn weui_btn_primary" href="javascript:deploy();" id="showTooltips">确定</a>
+			    </div>
+		    </div>
+		</div>
+	</div>	
+	</div>
+	<div id="toast-success" style="display: none;">
+		<div class="weui_mask_transparent"></div>
+		<div class="weui_toast">
+		    <i class="weui_icon_toast"></i>
+		    <p class="weui_toast_content">部署成功</p>
+		</div>
+	</div>
+	<div id="toast-unsucc" style="display: none;">
+		<div class="weui_mask_transparent"></div>
+		<div class="weui_toast">
+		    <i class="weui_icon_toast"></i>
+		    <p class="weui_toast_content">部署失败</p>
+		</div>
+	</div>
+</body>
+</html>

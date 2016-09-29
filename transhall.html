@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+	<title>积分交易大厅</title>
+	<link rel="stylesheet" href="css/mzui.min.css" />
+	<link rel="stylesheet" href="css/weui.css"/>
+	<link rel="stylesheet" href="weui.plus.css"/>
+	<script type="text/javascript" src="js/web3.min.js" ></script>
+	<script type="text/javascript" src="js/package.js" ></script>
+	<script type="text/javascript" src="js/zepto.min.js" ></script>
+	<script type="text/javascript">
+		function load_trans_data(){
+			var mobileid = sessionStorage.getItem("mobileid");
+			var trans_array_size = Points.getTransLength.call({from:account});
+			for (var index = 0; index < trans_array_size; index++){
+				var trans_data = Points.getTransinf.call(index, {from: account});
+				var fmobileid = trans_data[0];
+				var fmerid = trans_data[1].toString();
+				var fpoints = trans_data[2];
+				var tmerid = trans_data[3].toString();
+				var tpoints = trans_data[4];
+				var tmobileid = trans_data[5];
+				var state = trans_data[6].toString();
+				if (state == '4' || state == '2'){
+					continue;
+				}
+				var buffer = "<tr onclick='javascript:subtrans("+index+");'>"
+						   + "<td>"+fmobileid+"</td>"
+			               + "<td>[用]"+getMername(fmerid)+"<span class='text-red'>"+fpoints+"</span>积分</td>"
+			               + "<td>[兑换]"+getMername(tmerid)+"<span class='text-red'>"+tpoints+"</span>积分</td>"
+			               + "<td>"+getState(state)+"</td>"
+		                   + "</tr>"
+		        $("#trans-data").before(buffer);
+			}
+		}
+		function getMername(id){
+			var mername;
+			switch(id){
+				case '1234':
+					mername = '联动';
+					break;
+				case '1235':
+					mername = '腾讯';
+					break;
+				case '1236':
+				 	mername = '阿里';
+				default:
+					mername = '未知';
+				 	break;
+			}
+			return mername;
+		}
+		function getState(state){
+			switch(state){
+				case '0':
+				return '进行中';
+				case '2':
+				return '已成交';
+				case '4':
+				return '已取消';
+			}
+		}
+		function subtrans(index){
+			console.log(index);
+			var mobileid = sessionStorage.getItem("mobileid");
+			Points.subTrans(mobileid, index);
+			Points.Log({fromBlock: 0,toBlock: 'latest'}).watch(function(error, result) {
+				if(!error) {
+					console.log(result.args._method+","+result.args._message+","+result.args._result)
+					if (result.args._result){
+						$('#toast-success').show();
+                				setTimeout(function () {
+                    				$('#toast-success').hide();
+                    			    window.location.href = "mytrans.html";
+                			}, 1000);
+					} else {
+						$('#toast-unsucc').show();
+                				setTimeout(function () {
+                    				$('#toast-unsucc').hide();
+                    		//window.location.href = "index.html";
+                			}, 1000);
+					}
+				} else {
+					console.log(error.toString());
+				}
+			});
+		}
+	</script>
+</head>
+<body onload="load_trans_data()">
+	<div class="box outline">
+	<table class="table">
+		<thead>
+			<tr>
+				<th>手机号码</th>
+				<th>来源</th>
+				<th>兑换</th>
+				<th>状态</th>
+			</tr>
+		</thead>
+		<tbody id="trans-data">
+			<tr>
+				<td colspan="4" align="center">交易大厅暂无交易！</td>
+			</tr>
+		</tbody>
+	</table>
+	</div>
+	<div id="toast-success" style="display: none;">
+		<div class="weui_mask_transparent"></div>
+		<div class="weui_toast">
+		    <i class="weui_icon_toast"></i>
+		    <p class="weui_toast_content">交易成功</p>
+		</div>
+	</div>
+	<div id="toast-unsucc" style="display: none;">
+		<div class="weui_mask_transparent"></div>
+		<div class="weui_toast">
+		    <i class="weui_icon_toast"></i>
+		    <p class="weui_toast_content">交易失败</p>
+		</div>
+	</div>
+</body>
+
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+<head>
+	<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+	<title>区块链+积分</title>
+	<link rel="stylesheet" href="css/weui.css"/>
+	<link rel="stylesheet" href="weui.plus.css"/>
+	<script src="js/web3.min.js"></script>
+	<script src="js/package.js"></script>
+	<script src="js/zepto.min.js"></script>
+	<script type="text/javascript">
+		function register(){
+			var mobileid = $("#mobileid").val();
+			Points.register(mobileid, {from: account});
+			sessionStorage.setItem("mobileid", mobileid);
+			Points.Log({fromBlock: 0,toBlock: 'latest'}).watch(function(error, result) {
+				if(!error) {
+					console.log(result.args._method+","+result.args._message+","+result.args._result)
+					if (result.args._result){
+						$('#toast-success').show();
+                		setTimeout(function () {
+                    		$('#toast-success').hide();
+                    		window.location.href = "index.html";
+                		}, 1000);
+					} else {
+						$('#toast-unsucc').show();
+                		setTimeout(function () {
+                    		$('#toast-unsucc').hide();
+                    		window.location.href = "index.html";
+                		}, 1000);
+					}
+				} else {
+					console.log(error.toString());
+				}
+			});
+			Points.Log().stopWatching();
+		}
+	</script>
+</head>
+<body>
+	<div class="container" id="container">
+	<div class="cell">
+		<div class="weui_cells_title">选择</div>
+		<div class="weui_cells">
+		    <div class="weui_cell weui_cell_select weui_select_before">
+		        <div class="weui_cell_hd">
+		            <select class="weui_select" name="select2">
+		                <option value="1">+86</option>
+		                <option value="2">+80</option>
+		                <option value="3">+84</option>
+		                <option value="4">+87</option>
+		            </select>
+		        </div>
+		        <div class="weui_cell_bd weui_cell_primary">
+		            <input  class="weui_input" type="number" id="mobileid" pattern="[0-9]*" placeholder="请输入号码">
+		        </div>
+		    </div>
+		</div>
+        <div class="weui_btn_area">
+        	<a class="weui_btn weui_btn_primary" href="javascript:register();" id="showTooltips">注册</a>
+    	</div>
+	</div>
+	</div>
+	<div id="toast-success" style="display: none;">
+		<div class="weui_mask_transparent"></div>
+		<div class="weui_toast">
+		    <i class="weui_icon_toast"></i>
+		    <p class="weui_toast_content">注册成功</p>
+		</div>
+	</div>
+	<div id="toast-unsucc" style="display: none;">
+		<div class="weui_mask_transparent"></div>
+		<div class="weui_toast">
+		    <i class="weui_icon_toast"></i>
+		    <p class="weui_toast_content">注册失败</p>
+		</div>
+	</div>
+</body>
+</html>

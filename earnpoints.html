@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+<head>
+	<meta charset="UTF-8">
+	<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+	<title>"赚"积分</title>
+	<link rel="stylesheet" href="css/weui.css"/>
+	<link rel="stylesheet" href="weui.plus.css"/>
+	<script src="js/web3.min.js"></script>
+	<script src="js/package.js"></script>
+	<script src="js/zepto.min.js"></script>
+	<script type="text/javascript">
+		function earn(merid, amount){
+			var mobileid = sessionStorage.getItem("mobileid");
+			Points.earnpoints(mobileid, merid, amount);
+			Points.Log({fromBlock: 0,toBlock: 'latest'}).watch(function(error, result) {
+				if(!error) {
+					console.log(result.args._method+","+result.args._message+","+result.args._result)
+					if (result.args._result){
+						$('#toast-success').show();
+                		setTimeout(function () {
+                    		$('#toast-success').hide();
+                		}, 1000);
+					} else {
+						$('#toast-unsucc').show();
+                		setTimeout(function () {
+                    		$('#toast-unsucc').hide();
+                		}, 1000);
+					}
+				} else {
+					console.log(error.toString());
+				}
+			});
+			Points.Log({fromBlock: 0,toBlock: 'latest'}).stopWatching();
+		}
+	</script>
+</head>
+<body>
+	<div class="container" id="container">
+	<div class="panel">
+		<div class="weui_panel weui_panel_access">
+        <div class="weui_panel_hd">奖品列表</div>
+        <div class="weui_panel_bd">
+            <div class="weui_media_box weui_media_text" onclick="javascript:earn('1234', '1000');">
+                <h4 class="weui_media_title">联动勇士奖</h4>
+                <p class="weui_media_desc">联动积分：1000</p>
+            </div>
+            <div class="weui_media_box weui_media_text" onclick="javascript:earn('1235', '200');">
+                <h4 class="weui_media_title">微信活跃奖</h4>
+                <p class="weui_media_desc">腾讯积分：200</p>
+            </div>
+            <div class="weui_media_box weui_media_text" onclick="javascript:earn('1236', '300');">
+                <h4 class="weui_media_title">天猫剁手奖</h4>
+                <p class="weui_media_desc">阿里积分：300</p>
+            </div>
+        </div>
+        <a href="index.html" class="weui_panel_ft">返回首页</a>
+   	 	</div>
+	</div>	
+	</div>
+	<div id="toast-success" style="display: none;">
+		<div class="weui_mask_transparent"></div>
+		<div class="weui_toast">
+		    <i class="weui_icon_toast"></i>
+		    <p class="weui_toast_content">成功</p>
+		</div>
+	</div>
+	<div id="toast-unsucc" style="display: none;">
+		<div class="weui_mask_transparent"></div>
+		<div class="weui_toast">
+		    <i class="weui_icon_toast"></i>
+		    <p class="weui_toast_content">失败</p>
+		</div>
+	</div>
+</body>
+</html>
