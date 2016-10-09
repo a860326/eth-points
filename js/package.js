@@ -276,7 +276,6 @@ var contract = web3.eth.contract(abi);
 var Points = contract.at(sender);
 //初始化数据
 //sessionStorage.setItem("mobileid", 13800138000);
-//sessionStorage.setItem("mobileid", 13552649687);
 
 var mers = [1234, 1235, 1236];
 var mername = ['联动', '腾讯', '阿里'];
